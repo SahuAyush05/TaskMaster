@@ -1,3 +1,9 @@
+import { Request } from "express";
+
+export interface AuthRequest extends Request {
+  user?: any;
+}
+
 export const TYPES = {
     //Controllers
     UserController: Symbol.for("UserController"),
