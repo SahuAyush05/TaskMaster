@@ -1,5 +1,7 @@
 import dotenv from 'dotenv';
 import { Logger } from 'winston';
+import { logger } from './LoggerConfig';
+import { EncryptionConfig } from 'common-lib-utils';
 
 dotenv.config();
 
@@ -12,7 +14,7 @@ class AppConfig{
   static getWhitelistedEndpoints(): { [method: string]: string[] } {
     return {
       GET: [],
-      POST: [],
+      POST: ["/user/register","/user/login"],
       PUT: [],
       DELETE: [],
     };
@@ -55,6 +57,48 @@ class AppConfig{
         corsOrigins.push(process.env.CORS_ORIGIN_LOCAL_2);
       }
       return corsOrigins;
+  }
+   /**
+   * Returns the encryption key.
+   * @returns { string } - The encryption key.
+   */
+  static getEncryptionKey(): string {
+    if (!process.env.ENCRYPTION_KEY) {
+      throw new Error('ENCRYPTION_KEY is not defined in the environment variables');
+    }
+    return process.env.ENCRYPTION_KEY;
+  }
+
+  /**
+   * Returns the encryption IV.
+   * @returns { number } - The encryption IV.
+   */
+  static getEncryptionIv(): number {
+    if (!process.env.ENCRYPTION_IV) {
+      return 16
+    }
+    return parseInt(process.env.ENCRYPTION_IV);
+  }
+
+  /**
+   * Returns the encryption algorithm.
+   * @returns { string } - The encryption algorithm.
+   */
+  static getEncryptionAlgorithm(): string {
+    if (!process.env.ENCRYPTION_ALGORITHM) {
+      return "aes-256-gcm";
+    }
+    return process.env.ENCRYPTION_ALGORITHM;
+  }
+
+  /**
+   * Sets the encryption config.
+   */
+  static setEncryptionConfig(): void {
+    logger.info(`Setting encryption key: ${AppConfig.getEncryptionKey()}`);
+    logger.info(`Setting encryption iv: ${AppConfig.getEncryptionIv()}`);
+    logger.info(`Setting encryption algorithm: ${AppConfig.getEncryptionAlgorithm()}`);
+    EncryptionConfig.setEncryptionConfig(AppConfig.getEncryptionKey(), AppConfig.getEncryptionIv(), AppConfig.getEncryptionAlgorithm());
   }
 }
 

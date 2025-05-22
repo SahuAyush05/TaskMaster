@@ -24,6 +24,7 @@ server.setConfig((app) => {
     app.use(express.json({ limit: "50mb" }));
     logger.info("Setting up authentication config.");
     app.use(AuthUtil);
+    AppConfig.setEncryptionConfig();
 });
 
 const app =server.build();
