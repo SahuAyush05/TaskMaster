@@ -1,16 +1,13 @@
 import './App.css'
-import Landing from './components/landing/Landing'
-import SignIn from './components/UserAuth/SignIn'
-import SignUp from './components/UserAuth/SignUp'
+import { BrowserRouter } from "react-router-dom"
+import AppRoutes from "./Routes/Routes"
 
 function App() {
 
   return (
-    <>
-    {/* <Landing/> */}
-    {/* <SignUp/> */}
-    <SignIn/>
-    </>
+    <BrowserRouter>
+      <AppRoutes />
+    </BrowserRouter>
   )
 }
 
