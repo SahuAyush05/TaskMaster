@@ -100,6 +100,25 @@ class AppConfig{
     logger.info(`Setting encryption algorithm: ${AppConfig.getEncryptionAlgorithm()}`);
     EncryptionConfig.setEncryptionConfig(AppConfig.getEncryptionKey(), AppConfig.getEncryptionIv(), AppConfig.getEncryptionAlgorithm());
   }
+
+  static getCloudinaryCloudName() {
+    if (!process.env.CLOUDINARY_CLOUD_NAME) {
+      throw new Error('Cloud Name not in env');
+    }
+    return process.env.CLOUDINARY_CLOUD_NAME!;
+  }
+  static getCloudinaryApiKey() {
+     if (!process.env.CLOUDINARY_API_KEY) {
+      throw new Error('Cloudinary API Key not in env');
+    }
+    return process.env.CLOUDINARY_API_KEY!;
+  }
+  static getCloudinaryApiSecret() {
+     if (!process.env.CLOUDINARY_API_SECRET) {
+      throw new Error('API Secret Key not in env');
+    }
+    return process.env.CLOUDINARY_API_SECRET!;
+  }
 }
 
 export {AppConfig}
